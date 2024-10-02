@@ -593,6 +593,8 @@ export interface Project {
   createdAt: string
   _status?: ('draft' | 'published') | null
 }
+
+
 export interface Comment {
   id: string
   user?: (string | null) | User
