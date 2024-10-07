@@ -1,18 +1,11 @@
+/* eslint-disable simple-import-sort/imports */
+import { QuizBlock } from '../../blocks/Quiz'
 import type { CollectionConfig } from 'payload/types'
-
-import { admins } from '../../access/admins'
-import { adminsOrPublished } from '../../access/adminsOrPublished'
-import { Archive } from '../../blocks/ArchiveBlock'
-import { CallToAction } from '../../blocks/CallToAction'
-import { Content } from '../../blocks/Content'
-import { MediaBlock } from '../../blocks/MediaBlock'
-import { hero } from '../../fields/hero'
-import { slugField } from '../../fields/slug'
 import { populateArchiveBlock } from '../../hooks/populateArchiveBlock'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { revalidatePage } from './hooks/revalidatePage'
 
-export const Pages: CollectionConfig = {
+const Pages: CollectionConfig = {
   slug: 'pages',
   admin: {
     useAsTitle: 'title',
@@ -26,50 +19,76 @@ export const Pages: CollectionConfig = {
   hooks: {
     beforeChange: [populatePublishedAt],
     afterChange: [revalidatePage],
-    afterRead: [populateArchiveBlock],
+    // afterRead: [populateArchiveBlock],
   },
   versions: {
     drafts: true,
   },
   access: {
-    read: adminsOrPublished,
-    update: admins,
-    create: admins,
-    delete: admins,
+    read: () => true, // Set access control as per your requirements
+    update: ({ req }) => !!req.user, // Example of limiting edit access to logged-in users
   },
   fields: [
+    // Page title
     {
       name: 'title',
       type: 'text',
+      label: 'Page Title',
       required: true,
     },
+    // Slug for the page URL
     {
-      name: 'publishedAt',
-      type: 'date',
+      name: 'slug',
+      type: 'text',
+      label: 'Page Slug',
+      required: true,
+      unique: true,
+    },
+    // Meta description for SEO
+
+    // Hero Section (Optional, can be used to show a banner or introduction)
+    {
+      name: 'hero',
+      type: 'group',
+      label: 'Hero Section',
+      fields: [
+        {
+          name: 'title',
+          type: 'text',
+          label: 'Hero Title',
+        },
+        {
+          name: 'subtitle',
+          type: 'text',
+          label: 'Hero Subtitle',
+        },
+      ],
+    },
+    {
+      name: 'draft',
+      type: 'checkbox',
+      label: 'Draft Mode',
       admin: {
         position: 'sidebar',
       },
     },
+    // Content Blocks to allow different types of blocks (quizzes, rich text, media, etc.)
     {
-      type: 'tabs',
-      tabs: [
-        {
-          label: 'Hero',
-          fields: [hero],
-        },
-        {
-          label: 'Content',
-          fields: [
-            {
-              name: 'layout',
-              type: 'blocks',
-              required: true,
-              blocks: [CallToAction, Content, MediaBlock, Archive],
-            },
-          ],
-        },
-      ],
+      name: 'layout',
+      type: 'blocks',
+      label: 'Page Layout',
+      blocks: [QuizBlock],
     },
-    slugField(),
+    // Published date (useful for version control or scheduling content)
+    {
+      name: 'publishedAt',
+      type: 'date',
+      label: 'Publish Date',
+      admin: {
+        position: 'sidebar',
+      },
+    },
   ],
 }
+
+export default Pages

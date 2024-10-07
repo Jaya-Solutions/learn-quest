@@ -1,8 +1,3 @@
-import { ARCHIVE_BLOCK, CALL_TO_ACTION, CONTENT, MEDIA_BLOCK } from './blocks'
-import { LINK_FIELDS } from './link'
-import { MEDIA } from './media'
-import { META } from './meta'
-
 export const PAGES = `
   query Pages {
     Pages(limit: 300)  {
@@ -19,22 +14,39 @@ export const PAGE = `
       docs {
         id
         title
+        slug
         hero {
-          type
-          richText
-          links {
-            link ${LINK_FIELDS()}
-          }
-          ${MEDIA}
+          title
+          subtitle
         }
+        draft
         layout {
-          ${CONTENT}
-          ${CALL_TO_ACTION}
-          ${CONTENT}
-          ${MEDIA_BLOCK}
-          ${ARCHIVE_BLOCK}
+          ... on QuizBlock {
+            id
+            question
+            options {
+              optionText
+              correctAnswer
+              id
+            }
+            categories {
+              category {
+                id
+              }
+              id
+            }
+            blockName
+            blockType
+          }
         }
-        ${META}
+        publishedAt
+        meta {
+          title
+          description
+        }
+        updatedAt
+        createdAt
+        _status
       }
     }
   }

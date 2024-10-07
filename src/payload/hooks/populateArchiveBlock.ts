@@ -1,7 +1,7 @@
 import type { AfterReadHook } from 'payload/dist/collections/config/types'
 
 import { adminsOrPublished } from '../access/adminsOrPublished'
-import type { Page, Post } from '../payload-types'
+import type { Page, Quiz } from '../payload-types'
 
 export const populateArchiveBlock: AfterReadHook = async ({ doc, context, req }) => {
   // pre-populate the archive block if `populateBy` is `collection`
@@ -21,7 +21,7 @@ export const populateArchiveBlock: AfterReadHook = async ({ doc, context, req })
         }
 
         if (archiveBlock.populateBy === 'collection' && !context.isPopulatingArchiveBlock) {
-          const res: { totalDocs: number; docs: Post[] } = await payload.find({
+          const res: { totalDocs: number; docs: Quiz[] } = await payload.find({
             collection: archiveBlock.relationTo,
             limit: archiveBlock.limit || 10,
             context: {
@@ -48,7 +48,7 @@ export const populateArchiveBlock: AfterReadHook = async ({ doc, context, req })
           return {
             ...block,
             populatedDocsTotal: res.totalDocs,
-            populatedDocs: res.docs.map((thisDoc: Post) => ({
+            populatedDocs: res.docs.map((thisDoc: Quiz) => ({
               relationTo: archiveBlock.relationTo,
               value: thisDoc.id,
             })),

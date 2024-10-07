@@ -1,9 +1,10 @@
+/* eslint-disable no-console */
 import React from 'react'
 import { Metadata } from 'next'
 import { draftMode } from 'next/headers'
 import { notFound } from 'next/navigation'
 
-import { Page } from '../../../payload/payload-types'
+import type { Page } from '../../../payload/payload-types'
 import { staticHome } from '../../../payload/seed/home-static'
 import { fetchDoc } from '../../_api/fetchDoc'
 import { fetchDocs } from '../../_api/fetchDocs'
@@ -19,7 +20,7 @@ import { generateMeta } from '../../_utilities/generateMeta'
 // If you are not using Payload Cloud then this line can be removed, see `../../../README.md#cache`
 export const dynamic = 'force-dynamic'
 
-export default async function Page({ params: { slug = 'home' } }) {
+export default async function Page({ params: { slug = 'quiz' } }) {
   const { isEnabled: isDraftMode } = draftMode()
 
   let page: Page | null = null
@@ -28,7 +29,7 @@ export default async function Page({ params: { slug = 'home' } }) {
     page = await fetchDoc<Page>({
       collection: 'pages',
       slug,
-      draft: isDraftMode,
+      // draft: isDraftMode,
     })
   } catch (error) {
     // when deploying this template on Payload Cloud, this page needs to build before the APIs are live
@@ -36,6 +37,7 @@ export default async function Page({ params: { slug = 'home' } }) {
     // in production you may want to redirect to a 404  page or at least log the error somewhere
     // console.error(error)
   }
+  console.log('page:1 ', page)
 
   // if no `home` page exists, render a static one using dummy content
   // you should delete this code once you have a home page in the CMS
@@ -53,9 +55,10 @@ export default async function Page({ params: { slug = 'home' } }) {
   return (
     <React.Fragment>
       <Hero {...hero} />
+      <h1>{layout[0].question}</h1>
       <Blocks
         blocks={layout}
-        disableTopPadding={!hero || hero?.type === 'none' || hero?.type === 'lowImpact'}
+        // disableTopPadding={!hero || hero?.type === 'none' || hero?.type === 'lowImpact'}
       />
     </React.Fragment>
   )
