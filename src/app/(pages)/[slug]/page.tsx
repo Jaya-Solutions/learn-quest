@@ -37,7 +37,7 @@ export default async function Page({ params: { slug = 'quiz' } }) {
     // in production you may want to redirect to a 404  page or at least log the error somewhere
     // console.error(error)
   }
-  console.log('page:1 ', page)
+  // console.log('page:1 ', page)
 
   // if no `home` page exists, render a static one using dummy content
   // you should delete this code once you have a home page in the CMS
@@ -54,8 +54,15 @@ export default async function Page({ params: { slug = 'quiz' } }) {
 
   return (
     <React.Fragment>
-      <Hero {...hero} />
       <h1>{layout[0].question}</h1>
+      {layout[0].options.map((list, i) => {
+        return (
+          <div key={i}>
+            <h1>{list.optionText}</h1>
+          </div>
+        )
+      })}
+
       <Blocks
         blocks={layout}
         // disableTopPadding={!hero || hero?.type === 'none' || hero?.type === 'lowImpact'}

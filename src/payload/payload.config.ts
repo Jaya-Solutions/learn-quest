@@ -20,6 +20,7 @@ import { Settings } from './globals/Settings'
 import Pages from './collections/Pages'
 import Category from './collections/Category'
 import Quiz from './collections/Quiz'
+import Topics from './collections/Topics'
 
 const generateTitle: GenerateTitle = () => {
   return 'My Website'
@@ -63,7 +64,7 @@ export default buildConfig({
     },
   }),
   serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL,
-  collections: [Pages, Users, Category, Quiz],
+  collections: [Pages, Users, Category, Quiz, Topics],
   globals: [Settings, Header, Footer],
   typescript: {
     outputFile: path.resolve(__dirname, 'payload-types.ts'),

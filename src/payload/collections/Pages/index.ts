@@ -1,7 +1,9 @@
 /* eslint-disable simple-import-sort/imports */
+import { adminsOrPublished } from './../../access/adminsOrPublished'
+import { admins } from './../../access/admins'
+/* eslint-disable simple-import-sort/imports */
 import { QuizBlock } from '../../blocks/Quiz'
 import type { CollectionConfig } from 'payload/types'
-import { populateArchiveBlock } from '../../hooks/populateArchiveBlock'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { revalidatePage } from './hooks/revalidatePage'
 
@@ -25,8 +27,10 @@ const Pages: CollectionConfig = {
     drafts: true,
   },
   access: {
-    read: () => true, // Set access control as per your requirements
-    update: ({ req }) => !!req.user, // Example of limiting edit access to logged-in users
+    read: adminsOrPublished,
+    update: admins,
+    create: admins,
+    delete: admins,
   },
   fields: [
     // Page title
@@ -73,12 +77,28 @@ const Pages: CollectionConfig = {
       },
     },
     // Content Blocks to allow different types of blocks (quizzes, rich text, media, etc.)
+
     {
-      name: 'layout',
-      type: 'blocks',
-      label: 'Page Layout',
-      blocks: [QuizBlock],
+      type: 'tabs',
+      tabs: [
+        // {
+        //   label: 'Hero',
+        //   fields: [hero],
+        // },
+        {
+          label: 'Content',
+          fields: [
+            {
+              name: 'layout',
+              type: 'blocks',
+              label: 'Page Layout',
+              blocks: [QuizBlock],
+            },
+          ],
+        },
+      ],
     },
+
     // Published date (useful for version control or scheduling content)
     {
       name: 'publishedAt',

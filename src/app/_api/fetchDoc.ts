@@ -56,7 +56,7 @@ export const fetchDoc = async <T>(args: {
     const res = await response.json()
 
     // Log the complete response for debugging
-    console.log('GraphQL Response:', res)
+    // console.log('GraphQL Response:', res)
 
     // Check for GraphQL errors
     if (res.errors) {
@@ -71,7 +71,7 @@ export const fetchDoc = async <T>(args: {
       console.warn(`No document found for slug: ${slug}`)
     }
 
-    console.log('Fetched Document:', doc)
+    // console.log('Fetched Document:', doc)
     return doc
   } catch (error) {
     console.error('Fetch Document Error:', error)

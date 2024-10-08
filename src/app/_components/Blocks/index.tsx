@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { Fragment } from 'react'
 
 import { Page } from '../../../payload/payload-types.js'
@@ -13,6 +14,7 @@ export const Blocks: React.FC<{
 
   const hasBlocks = blocks && Array.isArray(blocks) && blocks.length > 0
 
+  console.log('layout 1: ', blocks)
   if (hasBlocks) {
     return (
       <Fragment>
