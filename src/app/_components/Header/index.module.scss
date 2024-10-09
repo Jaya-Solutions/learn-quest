@@ -1,14 +1,21 @@
 @use '../../_css/queries.scss' as *;
 
 .header {
-  padding: var(--base) 0;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+
+
+
 }
 
 .wrap {
   display: flex;
   justify-content: space-between;
-  flex-wrap: wrap;
-  gap: calc(var(--base) / 2) var(--base);
+  // flex-wrap: wrap;
+  // gap: calc(var(--base) / 2) var(--base);
 }
 
 .logo {

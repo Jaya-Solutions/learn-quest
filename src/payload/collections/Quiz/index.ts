@@ -23,6 +23,13 @@ const Quiz: CollectionConfig = {
   },
   fields: [
     {
+      name: 'slug',
+      type: 'text',
+      label: 'Page Slug',
+      required: true,
+      unique: true,
+    },
+    {
       name: 'question',
       type: 'text',
       required: true,

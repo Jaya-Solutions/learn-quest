@@ -1,4 +1,6 @@
+/* eslint-disable simple-import-sort/imports */
 /* eslint-disable no-console */
+
 import React from 'react'
 import { Metadata } from 'next'
 import { draftMode } from 'next/headers'
@@ -11,6 +13,7 @@ import { fetchDocs } from '../../_api/fetchDocs'
 import { Blocks } from '../../_components/Blocks'
 import { Hero } from '../../_components/Hero'
 import { generateMeta } from '../../_utilities/generateMeta'
+import Link from 'next/link'
 
 // Payload Cloud caches all files through Cloudflare, so we don't need Next.js to cache them as well
 // This means that we can turn off Next.js data caching and instead rely solely on the Cloudflare CDN
@@ -20,7 +23,7 @@ import { generateMeta } from '../../_utilities/generateMeta'
 // If you are not using Payload Cloud then this line can be removed, see `../../../README.md#cache`
 export const dynamic = 'force-dynamic'
 
-export default async function Page({ params: { slug = 'quiz' } }) {
+export default async function Page({ params: { slug = 'homepage' } }) {
   const { isEnabled: isDraftMode } = draftMode()
 
   let page: Page | null = null
@@ -50,18 +53,33 @@ export default async function Page({ params: { slug = 'quiz' } }) {
     return notFound()
   }
 
-  const { hero, layout } = page
+  const { hero, layout, title } = page
 
   return (
     <React.Fragment>
-      <h1>{layout[0].question}</h1>
-      {layout[0].options.map((list, i) => {
-        return (
-          <div key={i}>
-            <h1>{list.optionText}</h1>
-          </div>
-        )
-      })}
+      <h2>{hero.title}</h2>
+      <h3>{slug}</h3>
+      {slug == 'quiz' ? (
+        <div>
+          <h1> {layout[0].question}</h1>
+          {layout[0].options.map((list, i) => {
+            return (
+              <div key={i}>
+                <h1>{list.optionText}</h1>
+              </div>
+            )
+          })}
+        </div>
+      ) : (
+        <h1>{title}</h1>
+      )}
+      {/*  */}
+      <Link href={`/quiz`} passHref>
+        <button>Go to Another Page</button>
+      </Link>
+      <Link href={`/scoreboard`} passHref>
+        <button>score</button>
+      </Link>
 
       <Blocks
         blocks={layout}
@@ -80,7 +98,7 @@ export async function generateStaticParams() {
   }
 }
 
-export async function generateMetadata({ params: { slug = 'home' } }): Promise<Metadata> {
+export async function generateMetadata({ params: { slug = 'homepage' } }): Promise<Metadata> {
   const { isEnabled: isDraftMode } = draftMode()
 
   let page: Page | null = null

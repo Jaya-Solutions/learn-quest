@@ -15,6 +15,15 @@
     background-color: var(--theme-elevation-0);
   }
 }
+.header {
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+
+
+}
 
 .payloadAdminBar {
   color: var(--theme-text) !important;

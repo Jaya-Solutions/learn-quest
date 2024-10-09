@@ -27,17 +27,24 @@ export async function Header() {
   return (
     <>
       <header className={classes.header}>
-        <Gutter className={classes.wrap}>
-          <Link href="/">
-            {/* Cannot use the `<picture>` element here with `srcSet`
-              This is because the theme is able to be overridden by the user
-              And so `@media (prefers-color-scheme: dark)` will not work
-              Instead, we just use CSS to invert the color via `filter: invert(1)` based on `[data-theme="dark"]`
-            */}
+        <Link href="https://payloadcms.com" target="_blank" rel="noopener noreferrer">
+          <picture>
+            <source media="(prefers-color-scheme: dark)" srcSet="/custom_logo/lq-192x192.png" />
             <img className={classes.logo} alt="Payload Logo" src="/custom_logo/lq-192x192.png" />
-          </Link>
-          <HeaderNav header={header} />
-        </Gutter>
+          </picture>
+        </Link>
+        <div
+          style={{
+            width: '200px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            flexDirection: 'row',
+            gap: 5,
+          }}
+        >
+          <h4>topics</h4>
+          <h4>login</h4>
+        </div>
       </header>
     </>
   )

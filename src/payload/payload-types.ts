@@ -12,6 +12,7 @@ export interface Config {
     users: User;
     categories: Category;
     quiz: Quiz;
+    topics: Topic;
     redirects: Redirect;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -102,6 +103,7 @@ export interface User {
  */
 export interface Quiz {
   id: number;
+  slug: string;
   question: string;
   options: {
     optionText: string;
@@ -113,6 +115,21 @@ export interface Quiz {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "topics".
+ */
+export interface Topic {
+  id: number;
+  name: string;
+  description: {
+    [k: string]: unknown;
+  }[];
+  programmingLanguage: 'javascript' | 'python' | 'java' | 'cpp';
+  quizzes?: (number | Quiz)[] | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
