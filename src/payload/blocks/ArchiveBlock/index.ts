@@ -45,6 +45,10 @@ export const Archive: Block = {
           label: 'Projects',
           value: 'projects',
         },
+        {
+          label: 'Programming Languages',
+          value: 'pls',
+        },
       ],
     },
     {
@@ -71,7 +75,7 @@ export const Archive: Block = {
       type: 'relationship',
       name: 'selectedDocs',
       label: 'Selection',
-      relationTo: ['posts', 'projects'],
+      relationTo: ['posts', 'projects', 'pls'],
       hasMany: true,
       admin: {
         condition: (_, siblingData) => siblingData.populateBy === 'selection',

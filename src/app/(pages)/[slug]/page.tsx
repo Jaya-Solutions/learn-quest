@@ -41,7 +41,7 @@ export default async function Page({ params: { slug = 'home' } }) {
   // you should delete this code once you have a home page in the CMS
   // this is really only useful for those who are demoing this template
   if (!page && slug === 'home') {
-    page = staticHome
+    page = null
   }
 
   if (!page) {
@@ -89,7 +89,7 @@ export async function generateMetadata({ params: { slug = 'home' } }): Promise<M
   }
 
   if (!page) {
-    if (slug === 'home') page = staticHome
+    if (slug === 'home') page = null
   }
 
   return generateMeta({ doc: page })

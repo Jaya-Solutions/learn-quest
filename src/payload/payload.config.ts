@@ -1,3 +1,4 @@
+/* eslint-disable simple-import-sort/imports */
 import { webpackBundler } from '@payloadcms/bundler-webpack'
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { payloadCloud } from '@payloadcms/plugin-cloud'
@@ -23,6 +24,8 @@ import { seed } from './endpoints/seed'
 import { Footer } from './globals/Footer'
 import { Header } from './globals/Header'
 import { Settings } from './globals/Settings'
+import AdminLogo from './components/Logo'
+import { ProgrammingLanguages } from './collections/ProgrammingLangauges'
 
 const generateTitle: GenerateTitle = () => {
   return 'My Website'
@@ -43,6 +46,9 @@ export default buildConfig({
       // The `BeforeDashboard` component renders the 'welcome' block that you see after logging into your admin panel.
       // Feel free to delete this at any time. Simply remove the line below and the import `BeforeDashboard` statement on line 15.
       beforeDashboard: [BeforeDashboard],
+      graphics: {
+        Logo: AdminLogo,
+      },
     },
     webpack: config => ({
       ...config,
@@ -66,7 +72,7 @@ export default buildConfig({
     },
   }),
   serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL,
-  collections: [Pages, Posts, Projects, Media, Categories, Users, Comments],
+  collections: [Pages, Posts, Projects, Media, Categories, Users, Comments, ProgrammingLanguages],
   globals: [Settings, Header, Footer],
   typescript: {
     outputFile: path.resolve(__dirname, 'payload-types.ts'),

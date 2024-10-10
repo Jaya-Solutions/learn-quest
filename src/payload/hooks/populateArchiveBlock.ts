@@ -1,7 +1,7 @@
 import type { AfterReadHook } from 'payload/dist/collections/config/types'
 
 import { adminsOrPublished } from '../access/adminsOrPublished'
-import type { Page, Post } from '../payload-types'
+import type { Page, Pl, Post } from '../payload-types'
 
 export const populateArchiveBlock: AfterReadHook = async ({ doc, context, req }) => {
   // pre-populate the archive block if `populateBy` is `collection`
@@ -15,7 +15,7 @@ export const populateArchiveBlock: AfterReadHook = async ({ doc, context, req })
       if (block.blockType === 'archive') {
         const archiveBlock = block as Extract<Page['layout'][0], { blockType: 'archive' }> & {
           populatedDocs: Array<{
-            relationTo: 'pages' | 'posts'
+            relationTo: 'pages' | 'posts' | 'programmingLanguage'
             value: string
           }>
         }
@@ -48,7 +48,7 @@ export const populateArchiveBlock: AfterReadHook = async ({ doc, context, req })
           return {
             ...block,
             populatedDocsTotal: res.totalDocs,
-            populatedDocs: res.docs.map((thisDoc: Post) => ({
+            populatedDocs: res.docs.map((thisDoc: Post | Pl) => ({
               relationTo: archiveBlock.relationTo,
               value: thisDoc.id,
             })),
